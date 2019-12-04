@@ -33,9 +33,10 @@ def best_fit(X, Y):
     return a, b
 
 def c_graph(c):
-    aq_param = "pm25" # particle matter 2.5µm
     city_input = c
-    openaq = "https://api.openaq.org/v1/measurements?city="+city_input+"&date_from=2019-11-01&date_to=2019-11-30&order_by=date&limit=10000&parameter="+aq_param
+    aq_param = "pm25" # particle matter 2.5µm
+    params = "&date_from=2019-11-01&date_to=2019-11-30&order_by=date&sort=asc&limit=10000&format=json"
+    openaq = "https://api.openaq.org/v1/measurements?city="+city_input+"&parameter="+aq_param+params
     response = requests.get(openaq)
 
     #print(response.json())
