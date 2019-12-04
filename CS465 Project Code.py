@@ -83,10 +83,15 @@ def c_graph(c):
 
 def main():
     c_graph("Kansas City")
-    c_graph("Fairbanks")
+
+    # polluted cities
     c_graph("Bakersfield")
-    c_graph("Wilmington")
+    c_graph("Fairbanks")
+
+    # clean cities
     c_graph("Honolulu")
+    c_graph("Wilmington")
 
     matplot.show()
+    
 main()
