@@ -23,20 +23,19 @@ def best_fit(X, Y):
     xbar = sum(X)/len(X)
     ybar = sum(Y)/len(Y)
     n = len(X) # or len(Y)
+    
+    b = (sum([xi*yi for xi,yi in zip(X, Y)]) - n * xbar * ybar) / (sum([xi**2 for xi in X]) - n * xbar**2)
+    a = ybar - b * xbar
 
-    numer = sum([xi*yi for xi,yi in zip(X, Y)]) - n * xbar * ybar
-    denum = sum([xi**2 for xi in X]) - n * xbar**2
+    print(b, a)
+    print('best fit line:\ny = {:.2f}x + {:.2f}'.format(b, a))
 
-    m = numer / denum
-    b = ybar - m * xbar
+    return a, b
 
-    print('Line of Best Fit:\ny = {:.2f}x + {:.2f}'.format(m, b))
-    return b, m
-
-def main():
+def c_graph(c):
     aq_param = "pm25" # particle matter 2.5µm
-    city_input = "Bakersfield"
-    openaq = "https://api.openaq.org/v1/measurements?city="+city_input+"&country=US&date_from=2019-11-01&date_to=2019-11-30&order_by=date&limit=10000&parameter="+aq_param
+    city_input = c
+    openaq = "https://api.openaq.org/v1/measurements?city="+city_input+"&date_from=2019-11-01&date_to=2019-11-30&order_by=date&limit=10000&parameter="+aq_param
     response = requests.get(openaq)
 
     #print(response.json())
@@ -65,7 +64,7 @@ def main():
             parameter = cities_DFs[city].iloc[i]["parameter"]
             cTime = cities_DFs[city].iloc[i]["date.utc"].replace("-","").replace(":","").replace("T","").replace("Z","")
             #print(cTime)
-            cTimeSimp = cTime[6:8]
+            cTimeSimp = cTime[6:10]
             #print(cTimeSimp)
             cVal = cities_DFs[city].iloc[i]["value"]
             timeArr.append(int(cTimeSimp))
@@ -76,11 +75,17 @@ def main():
         yfit = [a + b * xi for xi in timeArr]
         matplot.plot(timeArr, yfit, color="red")
         matplot.title(city + ", " + country)
-        matplot.xlabel("day (Nov 2019)")
+        matplot.xlabel("day (Nov 2019) [DDHH]")
         #matplot.xlim(0, 1000)
         matplot.ylabel("value (µg/m³), " + parameter)
-        #matplot.ylim(0, 1000)
+        matplot.ylim(0, 100)
+
+def main():
+    c_graph("Kansas City")
+    c_graph("Fairbanks")
+    c_graph("Bakersfield")
+    c_graph("Wilmington")
+    c_graph("Honolulu")
 
     matplot.show()
-
 main()
