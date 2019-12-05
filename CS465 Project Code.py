@@ -28,7 +28,7 @@ def best_fit(X, Y):
     a = ybar - b * xbar
 
     print(b, a)
-    print('best fit line:\ny = {:.2f}x + {:.2f}'.format(b, a))
+    print('best fit line:\ny = {:.4f}x + {:.2f}'.format(b, a))
 
     return a, b
 
