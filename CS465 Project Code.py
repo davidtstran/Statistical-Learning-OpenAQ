@@ -80,6 +80,7 @@ def c_graph(c):
         #matplot.xlim(0, 1000)
         matplot.ylabel("value (µg/m³), " + parameter)
         matplot.ylim(0, 100)
+        print("Average: " + str(sum(valueArr)/len(valueArr)))
 
 def main():
     c_graph("Kansas City")
